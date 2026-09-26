@@ -1,5 +1,6 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { PlanProvider } from "../context/PlanContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
         <PlanProvider>
           <Navbar />
           {children}
+          <Footer />
           <ToastContainer
             position="top-right"
             theme="dark"
