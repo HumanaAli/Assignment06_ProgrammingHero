@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "FitLog",
   description: "Workout Library and Workout Planning Website",
