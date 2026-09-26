@@ -3,58 +3,70 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { usePlan } from "../context/PlanContext";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { plan, saved } = usePlan();
 
   return (
     <header className="border-b border-zinc-800 bg-black text-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/assets/logo.png"
             alt="FitLog logo"
-            width={38}
-            height={38}
+            width={30}
+            height={30}
           />
-          <span className="text-xl font-black tracking-wide">FITLOG</span>
+
+          <span className="text-lg font-black tracking-wide">
+            FITLOG
+          </span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        {/* Navigation */}
+        <div className="hidden items-center gap-7 md:flex">
           <Link
             href="/"
-            className={pathname === "/" ? "text-lime-400" : "text-zinc-400"}
+            className={`text-xs font-bold tracking-wide ${
+              pathname === "/"
+                ? "text-lime-400"
+                : "text-zinc-400 hover:text-white"
+            }`}
           >
             WORKOUT
           </Link>
 
           <Link
             href="/my-plan"
-            className={
-              pathname === "/my-plan" ? "text-lime-400" : "text-zinc-400"
-            }
+            className={`text-xs font-bold tracking-wide ${
+              pathname === "/my-plan"
+                ? "text-lime-400"
+                : "text-zinc-400 hover:text-white"
+            }`}
           >
             MY PLAN
           </Link>
         </div>
 
+        {/* Counters */}
         <div className="flex items-center gap-2">
           <Link
             href="/my-plan"
-            className="rounded-full bg-lime-400 px-4 py-2 text-xs font-black text-black"
+            className="rounded-full bg-lime-400 px-3 py-1.5 text-[10px] font-black text-black"
           >
-            PLAN <span>0</span>
+            PLAN {plan.length}
           </Link>
 
           <Link
             href="/my-plan"
-            className="rounded-full border border-zinc-600 px-4 py-2 text-xs font-black"
+            className="rounded-full border border-zinc-600 px-3 py-1.5 text-[10px] font-black text-white"
           >
-            SAVED <span>0</span>
+            SAVED {saved.length}
           </Link>
         </div>
-
       </nav>
     </header>
   );

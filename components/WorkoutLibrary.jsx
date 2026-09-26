@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function WorkoutLibrary() {
   const [workouts, setWorkouts] = useState([]);
@@ -8,7 +9,13 @@ export default function WorkoutLibrary() {
 
   useEffect(() => {
     fetch("https://api.abcz.workers.dev/api/fitlog")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch workouts");
+        }
+
+        return response.json();
+      })
       .then((data) => {
         setWorkouts(data);
         setLoading(false);
@@ -28,11 +35,12 @@ export default function WorkoutLibrary() {
   }
 
   return (
-    <div className="mt-7 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+    <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
       {workouts.map((workout) => (
-        <div
+        <Link
           key={workout.id}
-          className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 transition hover:border-zinc-600"
+          href={`/workout/${workout.id}`}
+          className="block overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 transition hover:border-zinc-600"
         >
           <img
             src={workout.image}
@@ -66,7 +74,7 @@ export default function WorkoutLibrary() {
               <span>★ {workout.rating}</span>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
